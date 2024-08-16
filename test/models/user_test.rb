@@ -5,7 +5,8 @@ class UserTest < ActiveSupport::TestCase
     @user = User.new(
       name: "",
       email: "johndoe@example.com",
-      password: "password"
+      password: "password",
+      password_confirmation: "password"
     )
     assert_not @user.valid?
 
@@ -17,7 +18,8 @@ class UserTest < ActiveSupport::TestCase
     @user = User.new(
       name: "John",
       email: "",
-      password: "password"
+      password: "password",
+      password_confirmation: "password"
     )
     assert_not @user.valid?
 
@@ -32,14 +34,16 @@ class UserTest < ActiveSupport::TestCase
     @existing_user = User.create(
       name: "John",
       email: "jd@example.com",
-      password: "password"
+      password: "password",
+      password_confirmation: "password"
     )
     assert @existing_user.persisted?
 
     @user = User.new(
       name: "Jon",
       email: "jd@example.com",
-      password: "password"
+      password: "password",
+      password_confirmation: "password"
     )
     assert_not @user.valid?
   end
@@ -56,16 +60,38 @@ class UserTest < ActiveSupport::TestCase
   test "password length must be between 8 and ActiveModel's maximum" do
     @user = User.new(
       name: "Jane",
-      email: "janedoe@example.com", password: ""
+      email: "janedoe@example.com",
+      password: "",
+      password_confirmation: "password"
     )
     assert_not @user.valid?
 
     @user.password = "password"
     assert @user.valid?
 
+    @user.password_confirmation = ""
+    assert_not @user.valid?
+
+    @user.password_confirmation = "password"
+
     max_length = ActiveModel::SecurePassword::MAX_PASSWORD_LENGTH_ALLOWED
     @user.password = "a" * (max_length + 1)
     assert_not @user.valid?
+
+    @user.password_confirmation = "a" * (max_length + 1)
+    assert_not @user.valid?
   end
 
+  test "password and password_confirmation must match" do
+    @user = User.new(
+      name: "Jane",
+      email: "janedoe@example.com",
+      password: "aaaaaaaa",
+      password_confirmation: "password"
+    )
+    assert_not @user.valid?
+
+    @user.password_confirmation = "aaaaaaaa"
+    assert @user.valid?
+  end
 end

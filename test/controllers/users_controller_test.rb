@@ -10,7 +10,8 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
         user: {
           name: "John",
           email: "johndoe@example.com",
-          password: "password"
+          password: "password",
+          password_confirmation: "password"
         }
       }
     end
@@ -30,7 +31,8 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
         user: {
           name: "John",
           email: "johndoe@example.com",
-          password: "pass"
+          password: "pass",
+          password_confirmation: "pass"
         }
       }
     end

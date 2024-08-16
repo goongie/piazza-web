@@ -11,5 +11,5 @@ class User < ApplicationRecord
   normalizes :email, with: -> (email) { email.strip.downcase }
 
   has_secure_password
-  validates :password, presence: true, length: { minimum: 8 }
+  validates :password, :password_confirmation, presence: true, length: { minimum: 8 }
 end
