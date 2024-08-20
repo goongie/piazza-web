@@ -8243,15 +8243,17 @@ var application = Application.start();
 application.debug = false;
 window.Stimulus = application;
 
-// app/javascript/controllers/hello_controller.js
-var hello_controller_default = class extends Controller {
-  connect() {
-    this.element.textContent = "Hello World!";
+// app/javascript/controllers/navbar_controller.js
+var navbar_controller_default = class extends Controller {
+  static targets = ["burger", "menu"];
+  toggle() {
+    this.burgerTarget.classList.toggle("is-active");
+    this.menuTarget.classList.toggle("is-active");
   }
 };
 
 // app/javascript/controllers/index.js
-application.register("hello", hello_controller_default);
+application.register("navbar", navbar_controller_default);
 /*! Bundled license information:
 
 @hotwired/turbo/dist/turbo.es2017-esm.js:
